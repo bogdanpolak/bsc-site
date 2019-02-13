@@ -1,0 +1,27 @@
+.module {
+    .collapse, .collapsing {
+        height: 3rem;  /* [NUM_OF_LINES] x [LINE_HEIGHT] */
+    }
+
+    .collapse {
+        position: relative;  /* For ...'s content absolute positioning */
+        display: block;
+        overflow: hidden;
+    }
+
+    .collapse.show {
+        height: auto;  /* You need to reset the height when not collapsed */
+    }
+
+    .collapse.show:before {
+        display: none;  /* Of course you don't want to display ... */
+    }
+      
+    a.collapsed:after {
+        content: '+ Show More';
+    }
+      
+    a:not(.collapsed):after {
+        content: '- Show Less';
+    }
+}
