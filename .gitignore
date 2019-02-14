@@ -1,3 +1,13 @@
 _site
 .sass-cache
 .jekyll-metadata
+assets/img
+.DS_Store
+
+# Space template file
+assets/img
+_sass/space1.2
+
+# Compiled versions of the style sheets
+assets/css/main.css
+assets/css/space-theme12.css

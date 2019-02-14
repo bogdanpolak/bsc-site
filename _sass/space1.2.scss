@@ -1,0 +1,22 @@
+/*
+  Compile Space v 1.2 Template:
+
+  1) create sbubfolder space1.2 
+
+  2) copy all files from a folder: space-v1.2/assets/include/scss/
+
+  3) in _sass/space1.2/theme.scss  change:
+      @import '../../vendor/bootstrap/scss/functions';
+      to
+      @import '../bootstrap4.3/functions';
+      *
+      and
+      *
+      @import '../../vendor/bootstrap/scss/bootstrap';
+      to
+      @import '../bootstrap4.3/bootstrap';
+
+  4) uncomment body of the scss file: /assets/css/space-theme12.scss
+
+*/
+@import "space1.2/theme";
