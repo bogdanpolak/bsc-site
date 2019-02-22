@@ -1,21 +1,104 @@
 ---
 layout: space
-url-narzedzia: tools/
-url-uslugi: services/
+url-tools: tools/
+url-services: services/
 ---
+
+<style>
+	.carousel-baner {
+		height: 300px;
+		width: 100%;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+
+	.baner-01 {
+		background-image: url("https://dummyimage.com/1200x300/889/aaf");
+	}
+
+	.baner-02 {
+		background-image: url("https://dummyimage.com/1200x300/898/afa");
+	}
+
+	.baner-03 {
+		background-image: url("https://dummyimage.com/1200x300/988/faa");
+	}
+</style>
+
+<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+	<ol class="carousel-indicators">
+		<li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+		<li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+		<li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+	</ol>
+	<div class="carousel-inner">
+		<div class="carousel-item active">
+			<div class="carousel-baner baner-01">
+			</div>
+			<!--
+				<img src="https://dummyimage.com/1200x300/889/aaf" class="d-none d-lg-block w-100" alt="...">
+				<img src="https://dummyimage.com/900x300/889/aaf" class="d-none d-md-block d-lg-none w-100" alt="...">
+				<img src="https://dummyimage.com/600x300/889/aaf" class="d-none d-sm-block d-md-none w-100" alt="...">
+				<img src="https://dummyimage.com/400x300/889/aaf" class="d-block d-sm-none w-100" alt="...">
+				-->
+			<div class="carousel-caption d-none d-block">
+				<h5>First slide label</h5>
+				<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+			</div>
+		</div>
+		<div class="carousel-item">
+			<div class="carousel-baner baner-02">
+			</div>
+			<!--
+				<img src="https://dummyimage.com/1200x300/898/afa" class="d-block w-100" alt="...">
+				-->
+			<div class="carousel-caption d-none d-block">
+				<h5>Second slide label</h5>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+			</div>
+		</div>
+		<div class="carousel-item">
+			<div class="carousel-baner baner-03">
+			</div>
+			<!--
+				<img src="https://dummyimage.com/1200x300/988/faa" class="d-block w-100" alt="...">
+				-->
+			<div class="carousel-caption d-none d-block">
+				<h5>Third slide label</h5>
+				<p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+			</div>
+		</div>
+
+	</div>
+	<a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		<span class="sr-only">Previous</span>
+	</a>
+	<a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		<span class="sr-only">Next</span>
+	</a>
+</div>
+<div class="container">
+</div>
+
 <div class="bg-gray-100">
 	<div class="container space-1">
 		<div class="row">
 			<div class="col-lg-6 mb-7 mb-lg-0">
 				<div class="bsc-offering-item">
-					<a href="{{ page.url-narzedzia }}"><img class="icon-w2" src="/assets/img2/svg/desk-with-mac-red-icon.svg" alt="ikona dla narzędzi"></a>
+					<a href="{{ page.url-tools }}"><img class="icon-w2"
+							src="/assets/img2/svg/desk-with-mac-red-icon.svg" alt="ikona dla narzędzi"></a>
 					<div class="offering-message">
-						<h2 class="text-danger">Narzędzia</h2>
+						<a href="{{ page.url-tools }}">
+							<h2 class="text-danger">Narzędzia</h2>
+						</a>
 						<p>Najlepsze narzędzia dla programistów, specjalistów baz danych oraz testerów</p>
-						<a class="h4 text-danger" href="{{ page.url-narzedzia }}">Zobacz ofertę</a>
+						<a class="h4 text-danger" href="{{ page.url-tools }}">Zobacz ofertę</a>
 					</div>
 					<div class="partners">
-						<p><a href=""><img src="/assets/img2/partner-logos/embarcadero-logo.png" width="200" alt=""></a></p>
+						<p><a href=""><img src="/assets/img2/partner-logos/embarcadero-logo.png" width="200" alt=""></a>
+						</p>
 						<p><a href=""><img src="/assets/img2/partner-logos/tms-logo.png" width="200" alt=""></a></p>
 						<p><a href=""><img src="/assets/img2/partner-logos/ranorex-logo.png" width="200" alt=""></a></p>
 						<p><a href=""><img src="/assets/img2/partner-logos/sencha-logo.png" width="200" alt=""></a></p>
@@ -25,11 +108,15 @@ url-uslugi: services/
 
 			<div class="col-lg-6 mb-7 mb-lg-0">
 				<div class="bsc-offering-item">
-					<a href="{{ page.url-uslugi }}"><img class="icon-w2" src="/assets/svg/components/consult-cyan-icon.svg" alt="Image Description"></a>
+					<a href="{{ page.url-services }}"><img class="icon-w2"
+							src="/assets/svg/components/consult-cyan-icon.svg" alt="Image Description"></a>
 					<div class="offering-message">
-						<h2 class="text-info">Usługi</h2>
-						<p>Oferujemy pełne wspacie naszych klientów zarówno w czasie wyboru narzędzi jak również w czasie ich wykorzystywania</p>
-						<a class="h4 text-info" href="#">Poznaj nasze usługi</a>
+						<a href="{{ page.url-services }}">
+							<h2 class="text-info">Usługi</h2>
+						</a>
+						<p>Oferujemy pełne wspacie naszych klientów zarówno w czasie wyboru narzędzi jak również w
+							czasie ich wykorzystywania</p>
+						<a class="h4 text-info" href="{{ page.url-services }}">Poznaj nasze usługi</a>
 					</div>
 					<div class="services">
 						<h5 class="service-item">
@@ -55,7 +142,7 @@ url-uslugi: services/
 								<img src="/assets/svg/components/finance-blue-icon.svg">
 								Architektura
 							</a>
-						</h5>							
+						</h5>
 					</div>
 
 				</div>
