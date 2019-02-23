@@ -1,3 +1,20 @@
-.footer-columns {
-    border: 1px solid yellow;
+$spacer: 1rem;
+
+footer {
+	background-color: #151b26 !important;
+	h6 {
+		color: white;
+		margin-bottom: $spacer;
+	}
+	.footer-list{
+		.footer-list-item {
+			font-size: $spacer*0.85;
+			color: #a9a9a9;
+			display: block;
+			padding: $spacer*0.5;
+		}
+		.footer-list-item:hover{
+			color: white;
+		}
+	}
 }
