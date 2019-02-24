@@ -1,5 +1,11 @@
 $spacer: 1rem;
 
+@import "bsc-custom/bsc-offerings";
+
+.bg-gray-100 {
+	background-color: #f0f0f0;
+}
+
 footer {
 	background-color: #151b26 !important;
 	h6 {
