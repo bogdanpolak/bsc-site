@@ -160,6 +160,7 @@ const callForPaperControler = {
 		this.confirmBox.style.display = "block";
 		for (var key in data){
 			if (data.hasOwnProperty(key)) {
+				// TODO: map - member => out, ...
 				document.getElementById('out-'+key).innerHTML = data[key];
 			}
 		}
@@ -182,12 +183,16 @@ const callForPaperControler = {
 			this.animateToTop();				
 		} else {
 			this.setSubmitButtonCaption(1);
+			// TODO: use map form-field => member
 			const data = this.form.asObject();
 			AjaxHttpPut(this.apiURL, data,
 				// onSuccess:
 				(response) => {
 					this.setSubmitButtonCaption(0);
 					this.animateToTop();
+					if (response.hasOwnProperty('hash')) {
+						data['hash'] = response.hash;
+					}
 					this.showConfirmation(data);
 				},
 				// onFailure:
@@ -210,6 +215,14 @@ const callForPaperControler = {
 		}
 	},
 
+	onClickSubmitNextSession: function() {
+		$('#confirmation-box').hide();
+		$(this.form).show();
+		document.getElementById('title').value = '';
+		document.getElementById('description').value = '';
+		document.getElementById('additional').value = '';
+	},
+
 	init: function () {
 		this.form = document.getElementById(this.formId);
 		this.confirmBox = document.getElementById(this.divConfirmationId);
@@ -220,18 +233,8 @@ const callForPaperControler = {
 			event.stopPropagation();
 			me.onFormSubmit();
 		});
-	},
-};
-
-const confirmationBoxControler = {
-	init: () => {
-		const me = this;
 		$('#confirmation-box button').on('click', (event) => {
-			$('#confirmation-box').hide();
-			$('#call-for-papers-form').show();
-			document.getElementById('title').value = '';
-			document.getElementById('description').value = '';
-			document.getElementById('additional').value = '';
+			me.onClickSubmitNextSession();
 		});
 	},
 };
@@ -257,6 +260,5 @@ const animateNavigation = {
 $( document ).ready(function() {
 	fillFormWithFakeData.init();
 	callForPaperControler.init();
-	confirmationBoxControler.init();
 	animateNavigation.init();
 });
