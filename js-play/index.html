@@ -1,0 +1,106 @@
+---
+layout: javascript-playground
+title: playground one
+---
+
+<div>
+    <h1>Javascript Playground</h1>
+    <ul id="out"></ul>
+</div>
+
+<script>
+
+/*
+ * format unicorn function from StackOverflow
+ * see: https://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format
+ */
+String.prototype.formatUnicorn = String.prototype.formatUnicorn || function () {
+    "use strict";
+    var str = this.toString();
+    if (arguments.length) {
+        var t = typeof arguments[0];
+        var key;
+        var args = ("string" === t || "number" === t) ?
+            Array.prototype.slice.call(arguments)
+            : arguments[0];
+        for (key in args) {
+            str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
+        }
+    }
+    return str;
+};
+
+function exercise1( out ) {
+    var foo = {
+        x: 1,
+        y: 2,
+        fun1: function () {
+            return this.x +this.y;
+        }
+    };
+    const bar = Object.create(foo);
+    const out1 = "foo.fun1() = "+foo.fun1(); 
+    const out2 = "bar.fun1() = "+bar.fun1();
+    out.log ('[Exercise 1] >>> '+out1+' ; '+out2);
+};
+
+function exercise2( out ) {
+    function Employee () {
+        this.name = '';
+        this.dept = 'general';
+    };
+    function Manager() {
+        Employee.call(this);
+        this.reports = [];
+    }
+    Manager.prototype = Object.create(Employee.prototype);
+    Manager.prototype.constructor = Manager;
+    function Staff() {
+        Employee.call(this);
+        this.projects = [];
+    }
+    Staff.prototype = Object.create(Employee.prototype);
+    Staff.prototype.constructor = Staff;
+    function SalesStaff() {
+        Staff.call(this);
+        this.dept = 'sales';
+        this.quota = 100;
+    }
+    SalesStaff.prototype = Object.create(Staff.prototype);
+    SalesStaff.prototype.constructor = SalesStaff;
+    function Engineer () {
+        Staff.call(this);
+        this.dept = 'engineering';
+        this.machine = '';
+    }
+    Engineer.prototype = Object.create(Staff.prototype);
+    Engineer.prototype.constructor = Engineer;
+    // -------------------------------------------------------
+    var jim = new Employee;
+    var sally = new Manager;
+    var mark = new Staff;
+    mark.name = 'Mark Doe';
+    mark.dept = 'admin';
+    mark.projects = [ 'NAV-navigator' ];
+    mark.bonus = 3000;
+    var fred = new SalesStaff;
+    var jane = new Engineer;
+    out.log (JSON.stringify(mark));
+    /*
+     * article:
+     */ 
+}
+
+
+(function(){
+    var out = document.getElementsByTagName('ul').item(0);
+    out.log = function(text) {
+        var li=document.createElement('li');
+        this.appendChild(li);
+        li.innerHTML = text;
+    };
+    exercise1( out );
+    mark = exercise2( out );
+})();
+
+</script>
