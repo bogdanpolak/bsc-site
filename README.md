@@ -6,6 +6,15 @@ Próbna strona zbudowana w oparciu o statyczny generator stron WWW - Jekyll.
 
 Więcej informacji: https://jekyllrb.com/
 
+## Instalacja
+
+Jekyll: https://jekyllrb.com/docs/installation/
+
+Install all required gems (after repository clone):
+```sh
+bundle install
+```
+
 ## Uruchomienie
 
 ```sh
@@ -16,4 +25,10 @@ Z opcją LiveReload:
 bundle exec jekyll serve --livereload
 ```
 
-Uwagi dla Windows ...
+### Uwagi dla Windows
+
+Uruchomienie trybu LiveReload wymaga przeinstalowania gem-u EventMachine:
+```sh
+gem uninstall eventmachine --force
+gem install eventmachine --platform ruby
+```
