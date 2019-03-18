@@ -3,9 +3,43 @@ layout: javascript-playground
 title: playground one
 ---
 
-<div>
-    <h1>Javascript Playground</h1>
-    <ul id="out"></ul>
+<div class="example" id="example-object-create">
+	<div>
+		<h1>Exercise: Object.create</h1>
+	</div>
+	<div class="example-content">
+		<p class="reference"></p>
+		<ul class="out"></ul>
+	</div>
+</div>
+
+<div class="example" id="example-closures">
+	<div>
+		<h1>Exercise Closures</h1>
+	</div>
+	<div class="example-content">
+		<p class="reference">
+			Przykład wyświetlania podpowiedzi po wejściu w pole formularza. 
+			[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures#Creating_closures_in_loops_A_common_mistake">czytaj wiecej</a>]
+			(https://developer.mozilla.org)
+		</p>
+		<form action="">
+			<p>
+				<input type="radio" name="ex3-opt" value="using-var"> 
+				wersja - var  <span style="margin-left:30px;"></span>
+				<input type="radio" name="ex3-opt" value="using-let"> 
+				wersja - let  <span style="margin-left:30px;"></span>
+				<input type="radio" name="ex3-opt" value="using-anonymous-closure"> 
+				wersja - anonymous closure <span style="margin-left:30px;"></span>
+				<input type="radio" name="ex3-opt" value="using-forEach"> 
+				wersja - using-forEach
+			</p>
+			<p>E-mail: <input type="text" id="email" name="email"></p>
+			<p>Name: <input type="text" id="name" name="name"></p>
+			<p>Age: <input type="text" id="age" name="age"></p>
+			<p id="help" style="color:rgb(176, 135, 0)">Helpful notes will appear here</p>
+		</form>
+	</div>
 </div>
 
 <script>
@@ -15,92 +49,179 @@ title: playground one
  * see: https://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format
  */
 String.prototype.formatUnicorn = String.prototype.formatUnicorn || function () {
-    "use strict";
-    var str = this.toString();
-    if (arguments.length) {
-        var t = typeof arguments[0];
-        var key;
-        var args = ("string" === t || "number" === t) ?
-            Array.prototype.slice.call(arguments)
-            : arguments[0];
-        for (key in args) {
-            str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
-        }
-    }
-    return str;
+	"use strict";
+	var str = this.toString();
+	if (arguments.length) {
+		var t = typeof arguments[0];
+		var key;
+		var args = ("string" === t || "number" === t) ?
+			Array.prototype.slice.call(arguments)
+			: arguments[0];
+		for (key in args) {
+			str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
+		}
+	}
+	return str;
 };
 
-function exercise1( out ) {
-    var foo = {
-        x: 1,
-        y: 2,
-        fun1: function () {
-            return this.x +this.y;
-        }
-    };
-    const bar = Object.create(foo);
-    const out1 = "foo.fun1() = "+foo.fun1(); 
-    const out2 = "bar.fun1() = "+bar.fun1();
-    out.log ('[Exercise 1] >>> '+out1+' ; '+out2);
+const exercise1 = {
+	out: null,
+	init: function () {
+		var ex1div = document.getElementById('example-object-create');
+		this.out = ex1div.getElementsByTagName('ul').item(0);
+	},
+	log: function (info, value) {
+		var li=document.createElement('li');
+		this.out.appendChild(li);
+		li.innerHTML = info+' = '+value;
+	},
+	run: function () {
+		this.init();
+		// ---------------
+		var foo = {
+			x: 1,
+			y: 2,
+			fun1: function () {
+				return this.x +this.y;
+			}
+		};
+		const bar = Object.create(foo);
+		this.log ("foo.fun1()", foo.fun1() ); 
+		this.log ("bar.fun1()", bar.fun1() );
+	}
 };
 
-function exercise2( out ) {
-    function Employee () {
-        this.name = '';
-        this.dept = 'general';
-    };
-    function Manager() {
-        Employee.call(this);
-        this.reports = [];
-    }
-    Manager.prototype = Object.create(Employee.prototype);
-    Manager.prototype.constructor = Manager;
-    function Staff() {
-        Employee.call(this);
-        this.projects = [];
-    }
-    Staff.prototype = Object.create(Employee.prototype);
-    Staff.prototype.constructor = Staff;
-    function SalesStaff() {
-        Staff.call(this);
-        this.dept = 'sales';
-        this.quota = 100;
-    }
-    SalesStaff.prototype = Object.create(Staff.prototype);
-    SalesStaff.prototype.constructor = SalesStaff;
-    function Engineer () {
-        Staff.call(this);
-        this.dept = 'engineering';
-        this.machine = '';
-    }
-    Engineer.prototype = Object.create(Staff.prototype);
-    Engineer.prototype.constructor = Engineer;
-    // -------------------------------------------------------
-    var jim = new Employee;
-    var sally = new Manager;
-    var mark = new Staff;
-    mark.name = 'Mark Doe';
-    mark.dept = 'admin';
-    mark.projects = [ 'NAV-navigator' ];
-    mark.bonus = 3000;
-    var fred = new SalesStaff;
-    var jane = new Engineer;
-    out.log (JSON.stringify(mark));
-    /*
-     * article:
-     */ 
-}
+const exercise2 = {
+	declare: function () {
+		function Employee (name) {
+			this.name = name || '';
+			this.dept = 'general';
+		};
+		function Manager(name) {
+			Employee.call(this,name);
+			this.reports = [];
+		}
+		Manager.prototype = Object.create(Employee.prototype);
+		Manager.prototype.constructor = Manager;
+		function Staff(name) {
+			Employee.call(this,name);
+			this.projects = [];
+		}
+		Staff.prototype = Object.create(Employee.prototype);
+		Staff.prototype.constructor = Staff;
+		function SalesStaff(name) {
+			Staff.call(this,name);
+			this.dept = 'sales';
+			this.quota = 100;
+		}
+		SalesStaff.prototype = Object.create(Staff.prototype);
+		SalesStaff.prototype.constructor = SalesStaff;
+		function Engineer (name) {
+			Staff.call(this,name);
+			this.dept = 'engineering';
+			this.machine = '';
+		}
+		Engineer.prototype = Object.create(Staff.prototype);
+		Engineer.prototype.constructor = Engineer;
+		return {Employee, Manager, Staff, SalesStaff, Engineer};
+	},
+	run: function () {
+		var {Employee, Manager, Staff, SalesStaff, Engineer} = this.declare();
+		// --------------------------
+		var jim = new Employee('Jim Bean');
+		var sally = new Manager('Sally Reynolds');
+		var mark = new Staff('Mark Doe');
+			mark.dept = 'admin';
+			mark.projects = [ 'NAV-navigator' ];
+			mark.bonus = 3000;
+		var fred = new SalesStaff;
+		var jane = new Engineer;
+		// --------------------------
+		console.info(jim);
+		console.info(sally);
+		console.info(mark);
+		console.info(fred);
+		console.info(jane);
+	}
+};
+
+var exercise3 = {
+	option: 0,
+	setOption: function(ver) {
+	},
+	init: function () {
+		const ex3div = document.getElementById('example-closures');
+		const inputs = Array.prototype.slice.call(
+			ex3div.getElementsByTagName('input'));
+		inputs.forEach(e => {
+			const me = this;
+			if (e.type === 'radio') {
+				e.onclick = function () { 
+					me.run(e.value);
+				};
+			};
+		});
+	},
+	run: function (inputValue) {
+		var helpText = [
+			{'id': 'email', 'help': 'Your e-mail address'},
+			{'id': 'name', 'help': 'Your full name'},
+			{'id': 'age', 'help': 'Your age (you must be over 16)'}
+		];
+		function setupHelp1() {
+			for (var i = 0; i < helpText.length; i++) {
+				var item = helpText[i];
+				document.getElementById(item.id).onfocus = function() {
+					document.getElementById('help').innerHTML = item.help;
+				}
+			}
+		}
+		function setupHelp2() {
+			for (var i = 0; i < helpText.length; i++) {
+				let item = helpText[i];  // ***************
+				document.getElementById(item.id).onfocus = function() {
+					document.getElementById('help').innerHTML = item.help;
+				}
+			}
+		}
+		function setupHelp3() {
+			for (var i = 0; i < helpText.length; i++) {
+				document.getElementById(helpText[i].id).onfocus = (function(item) {
+					return function () {
+						document.getElementById('help').innerHTML = item.help;
+					}
+				})(helpText[i]);
+			}
+		}
+		function setupHelp4() {
+			helpText.forEach ( item => {
+				document.getElementById(item.id).onfocus = function() {
+					document.getElementById('help').innerHTML = item.help;
+				}
+			});
+		}
+		const setupFunctions = [ 
+			{ name:"using-var", fun:setupHelp1 },
+			{ name:"using-let", fun:setupHelp2 }, 
+			{ name:"using-anonymous-closure", fun:setupHelp3 },
+			{ name:"using-forEach", fun:setupHelp4 },
+			 
+		];
+		const items = setupFunctions.filter ( e => e.name === inputValue );
+		if (items.length === 0)
+			console.error ('invalid input value: '+inputValue+'. No function defined');
+		items.forEach ( item => { 
+			item.fun(); 
+			console.log('function: '+item.fun.name); 
+		} );
+	}
+};
 
 
 (function(){
-    var out = document.getElementsByTagName('ul').item(0);
-    out.log = function(text) {
-        var li=document.createElement('li');
-        this.appendChild(li);
-        li.innerHTML = text;
-    };
-    exercise1( out );
-    mark = exercise2( out );
+	exercise1.run();
+	exercise2.run();
+	exercise3.init();
 })();
 
 </script>
