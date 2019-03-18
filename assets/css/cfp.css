@@ -1,74 +1,73 @@
 :root {
-    --jumbotron-padding-y: 3rem;
-  }
-  
-  .jumbotron {
-    padding-top: var(--jumbotron-padding-y);
-    padding-bottom: var(--jumbotron-padding-y);
-    margin-bottom: 0;
-    background-color: #fff;
-  }
-  @media (min-width: 768px) {
-    .jumbotron {
-      padding-top: calc(var(--jumbotron-padding-y) * 2);
-      padding-bottom: calc(var(--jumbotron-padding-y) * 2);
-    }
-  }
-  
-  .jumbotron p:last-child {
-    margin-bottom: 0;
-  }
-  
-  .jumbotron-heading {
-    font-weight: 300;
-  }
-  
-  .jumbotron .container {
-    max-width: 40rem;
-  }
-  
-  
-  #confirmation-box {display: none;}
-  .confirm-list {padding-left: 0;}
-  .confirm-list li {list-style: none;}
-  .confirm-list span { margin-left: 1em; }
-  
-  
-  footer {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-  }
-  
-  footer p {
-    margin-bottom: .25rem;
-  }
-  
-  .why-particiate-list {
-  
-  }
-  
-  .why-particiate-list li {
-    list-style-type: none;
-    margin-top: 10px; 
-    margin-left: 25px;
-    padding: 15px;
-    border-left: 3px solid #fec20f;
-    background-color: #fff8e0;
-  }
-  
-  .form-section {
-    margin:10px 0;
-    border-bottom: 2px solid #fec20f;
-    background-color: #FEEBAF;
-    padding:10px;
-    color: #207080;
-    font-weight: strong;
-  }
-  
-  button[type=submit] .default-submit {
-    font-weight: bold;
-  }
-  button[type=submit] .busy-submit {
-    display: none;
-  }
-  
+	--jumbotron-padding-y: 3rem;
+}
+
+.jumbotron {
+	padding-top: var(--jumbotron-padding-y);
+	padding-bottom: var(--jumbotron-padding-y);
+	margin-bottom: 0;
+	background-color: #fff;
+}
+@media (min-width: 768px) {
+	.jumbotron {
+		padding-top: calc(var(--jumbotron-padding-y) * 2);
+		padding-bottom: calc(var(--jumbotron-padding-y) * 2);
+	}
+}
+
+.jumbotron p:last-child {
+	margin-bottom: 0;
+}
+
+.jumbotron-heading {
+	font-weight: 300;
+}
+
+.jumbotron .container {
+	max-width: 40rem;
+}
+
+
+#confirmation-box {display: none;}
+.confirm-list {padding-left: 0;}
+.confirm-list li {list-style: none;}
+.confirm-list span { margin-left: 1em; }
+
+
+footer {
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+}
+
+footer p {
+	margin-bottom: .25rem;
+}
+
+.why-particiate-list {
+	margin: 0;
+}
+
+.why-particiate-list li {
+	list-style-type: none;
+	margin-top: 10px; 
+	margin-left: 25px;
+	padding: 15px;
+	border-left: 3px solid #fec20f;
+	background-color: #fff8e0;
+}
+
+.form-section {
+	margin:10px 0;
+	border-bottom: 2px solid #fec20f;
+	background-color: #FEEBAF;
+	padding:10px;
+	color: #207080;
+	font-weight: strong;
+}
+
+button[type=submit] .default-submit {
+	font-weight: bold;
+}
+button[type=submit] .busy-submit {
+	display: none;
+}
