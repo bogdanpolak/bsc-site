@@ -91,52 +91,59 @@ const exercise1 = {
 	}
 };
 
-function exercise2( out ) {
-	function Employee () {
-		this.name = '';
-		this.dept = 'general';
-	};
-	function Manager() {
-		Employee.call(this);
-		this.reports = [];
+const exercise2 = {
+	declare: function () {
+		function Employee (name) {
+			this.name = name || '';
+			this.dept = 'general';
+		};
+		function Manager(name) {
+			Employee.call(this,name);
+			this.reports = [];
+		}
+		Manager.prototype = Object.create(Employee.prototype);
+		Manager.prototype.constructor = Manager;
+		function Staff(name) {
+			Employee.call(this,name);
+			this.projects = [];
+		}
+		Staff.prototype = Object.create(Employee.prototype);
+		Staff.prototype.constructor = Staff;
+		function SalesStaff(name) {
+			Staff.call(this,name);
+			this.dept = 'sales';
+			this.quota = 100;
+		}
+		SalesStaff.prototype = Object.create(Staff.prototype);
+		SalesStaff.prototype.constructor = SalesStaff;
+		function Engineer (name) {
+			Staff.call(this,name);
+			this.dept = 'engineering';
+			this.machine = '';
+		}
+		Engineer.prototype = Object.create(Staff.prototype);
+		Engineer.prototype.constructor = Engineer;
+		return {Employee, Manager, Staff, SalesStaff, Engineer};
+	},
+	run: function () {
+		var {Employee, Manager, Staff, SalesStaff, Engineer} = this.declare();
+		// --------------------------
+		var jim = new Employee('Jim Bean');
+		var sally = new Manager('Sally Reynolds');
+		var mark = new Staff('Mark Doe');
+			mark.dept = 'admin';
+			mark.projects = [ 'NAV-navigator' ];
+			mark.bonus = 3000;
+		var fred = new SalesStaff;
+		var jane = new Engineer;
+		// --------------------------
+		console.info(jim);
+		console.info(sally);
+		console.info(mark);
+		console.info(fred);
+		console.info(jane);
 	}
-	Manager.prototype = Object.create(Employee.prototype);
-	Manager.prototype.constructor = Manager;
-	function Staff() {
-		Employee.call(this);
-		this.projects = [];
-	}
-	Staff.prototype = Object.create(Employee.prototype);
-	Staff.prototype.constructor = Staff;
-	function SalesStaff() {
-		Staff.call(this);
-		this.dept = 'sales';
-		this.quota = 100;
-	}
-	SalesStaff.prototype = Object.create(Staff.prototype);
-	SalesStaff.prototype.constructor = SalesStaff;
-	function Engineer () {
-		Staff.call(this);
-		this.dept = 'engineering';
-		this.machine = '';
-	}
-	Engineer.prototype = Object.create(Staff.prototype);
-	Engineer.prototype.constructor = Engineer;
-	// -------------------------------------------------------
-	var jim = new Employee;
-	var sally = new Manager;
-	var mark = new Staff;
-	mark.name = 'Mark Doe';
-	mark.dept = 'admin';
-	mark.projects = [ 'NAV-navigator' ];
-	mark.bonus = 3000;
-	var fred = new SalesStaff;
-	var jane = new Engineer;
-	// out.log (JSON.stringify(mark));
-	/*
-	 * article:
-	 */ 
-}
+};
 
 var exercise3 = {
 	option: 0,
@@ -213,7 +220,7 @@ var exercise3 = {
 
 (function(){
 	exercise1.run();
-	mark = exercise2();
+	exercise2.run();
 	exercise3.init();
 })();
 
