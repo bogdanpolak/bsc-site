@@ -3,9 +3,14 @@ layout: javascript-playground
 title: playground one
 ---
 
-<div>
-	<h1>Javascript Playground</h1>
-	<ul id="out"></ul>
+<div class="example" id="example-object-create">
+	<div>
+		<h1>Exercise: Object.create</h1>
+	</div>
+	<div class="example-content">
+		<p class="reference"></p>
+		<ul class="out"></ul>
+	</div>
 </div>
 
 <div class="example" id="example-closures">
@@ -14,8 +19,9 @@ title: playground one
 	</div>
 	<div class="example-content">
 		<p class="reference">
-			Przykład wyświetlania dymka nad formą. (https://developer.mozilla.org) 
+			Przykład wyświetlania podpowiedzi po wejściu w pole formularza. 
 			[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures#Creating_closures_in_loops_A_common_mistake">czytaj wiecej</a>]
+			(https://developer.mozilla.org)
 		</p>
 		<form action="">
 			<p>
@@ -58,18 +64,31 @@ String.prototype.formatUnicorn = String.prototype.formatUnicorn || function () {
 	return str;
 };
 
-function exercise1( out ) {
-	var foo = {
-		x: 1,
-		y: 2,
-		fun1: function () {
-			return this.x +this.y;
-		}
-	};
-	const bar = Object.create(foo);
-	const out1 = "foo.fun1() = "+foo.fun1(); 
-	const out2 = "bar.fun1() = "+bar.fun1();
-	out.log ('[Exercise 1] >>> '+out1+' ; '+out2);
+const exercise1 = {
+	out: null,
+	init: function () {
+		var ex1div = document.getElementById('example-object-create');
+		this.out = ex1div.getElementsByTagName('ul').item(0);
+	},
+	log: function (info, value) {
+		var li=document.createElement('li');
+		this.out.appendChild(li);
+		li.innerHTML = info+' = '+value;
+	},
+	run: function () {
+		this.init();
+		// ---------------
+		var foo = {
+			x: 1,
+			y: 2,
+			fun1: function () {
+				return this.x +this.y;
+			}
+		};
+		const bar = Object.create(foo);
+		this.log ("foo.fun1()", foo.fun1() ); 
+		this.log ("bar.fun1()", bar.fun1() );
+	}
 };
 
 function exercise2( out ) {
@@ -113,7 +132,7 @@ function exercise2( out ) {
 	mark.bonus = 3000;
 	var fred = new SalesStaff;
 	var jane = new Engineer;
-	out.log (JSON.stringify(mark));
+	// out.log (JSON.stringify(mark));
 	/*
 	 * article:
 	 */ 
@@ -193,14 +212,8 @@ var exercise3 = {
 
 
 (function(){
-	var out = document.getElementsByTagName('ul').item(0);
-	out.log = function(text) {
-		var li=document.createElement('li');
-		this.appendChild(li);
-		li.innerHTML = text;
-	};
-	exercise1( out );
-	mark = exercise2( out );
+	exercise1.run();
+	mark = exercise2();
 	exercise3.init();
 })();
 
