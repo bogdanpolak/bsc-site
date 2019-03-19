@@ -42,6 +42,16 @@ title: playground one
 	</div>
 </div>
 
+<div class="example" id="example-scope">
+	<div>
+		<h1>Exercise: JS Scope</h1>
+	</div>
+	<div class="example-content">
+		<p class="reference"></p>
+		<ul class="out"></ul>
+	</div>
+</div>
+
 <script>
 
 /*
@@ -217,11 +227,33 @@ var exercise3 = {
 	}
 };
 
+ex4object = {};
+ex4fn = function(){ 
+	return this; 
+};
+
+ex4scope = {
+	init: function (contenerId) {
+		var ex1div = document.getElementById(contenerId);
+		this.out = ex1div.getElementsByTagName('ul').item(0);
+	},
+	log: function (info, value) {
+		var li=document.createElement('li');
+		this.out.appendChild(li);
+		li.innerHTML = info+' = '+value;
+	},
+	run: function() {
+		this.init('example-scope');
+		this.log ( "(ex4fn() == this) ", ex4fn() == window );
+		this.log( "(ex4fn.call(ex4object) == ex4object) ", ex4fn.call(ex4object) == ex4object );
+	}
+};
 
 (function(){
 	exercise1.run();
 	exercise2.run();
 	exercise3.init();
+	ex4scope.run();
 })();
 
 </script>
