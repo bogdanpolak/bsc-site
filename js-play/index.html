@@ -52,6 +52,19 @@ title: playground one
 	</div>
 </div>
 
+<div class="example" id="example-prototype">
+	<div>
+		<h1>Exercise: JS Scope</h1>
+	</div>
+	<div class="example-content">
+		<p class="reference">
+			Blog post: Prototypes in JavaScript - Rupesh Mishra
+			[<a href="https://hackernoon.com/prototypes-in-javascript-5bba2990e04b">czytaj wiecej</a>]
+		</p>
+		<ul class="out"></ul>
+	</div>
+</div>
+
 <script>
 
 /*
@@ -249,11 +262,37 @@ ex4scope = {
 	}
 };
 
+function MyClass (a) {
+	this.a = a;
+	this.b = 1;
+}
+MyClass.prototype.sum = function () {
+	return this.a +this.b;
+}
+
+ex5prototype = {
+	init: function (contenerId) {
+		var ex1div = document.getElementById(contenerId);
+		this.out = ex1div.getElementsByTagName('ul').item(0);
+	},
+	log: function (info, value) {
+		var li=document.createElement('li');
+		this.out.appendChild(li);
+		li.innerHTML = info+' = '+value;
+	},
+	run: function() {
+		this.init('example-prototype');
+		const obj = new MyClass(5);
+		this.log( "obj.sum() ", obj.sum() );
+	}
+};
+
 (function(){
 	exercise1.run();
 	exercise2.run();
 	exercise3.init();
 	ex4scope.run();
+	ex5prototype.run();
 })();
 
 </script>
