@@ -100,20 +100,23 @@ String.prototype.formatUnicorn = String.prototype.formatUnicorn || function () {
 	return str;
 };
 
+const ListLogger = function (param) {
+	if (typeof param.reportElemID === 'undefined')
+		console.error ('property reportElemID is reqired in param object');
+	const div = document.getElementById(param.reportElemID);
+	this.out = div.getElementsByTagName('ul').item(0);
+};
+ListLogger.prototype.log = function (info, value) {
+	var li=document.createElement('li');
+	this.out.appendChild(li);
+	li.innerHTML = info+' = '+value;
+};
+
 const exercise1 = {
-	out: null,
-	init: function () {
-		var ex1div = document.getElementById('example-object-create');
-		this.out = ex1div.getElementsByTagName('ul').item(0);
-	},
-	log: function (info, value) {
-		var li=document.createElement('li');
-		this.out.appendChild(li);
-		li.innerHTML = info+' = '+value;
-	},
 	run: function () {
-		this.init();
-		// ---------------
+		const logger = new ListLogger( {
+			reportElemID: 'example-object-create'
+		} );
 		var foo = {
 			x: 1,
 			y: 2,
@@ -122,8 +125,8 @@ const exercise1 = {
 			}
 		};
 		const bar = Object.create(foo);
-		this.log ("foo.fun1()", foo.fun1() ); 
-		this.log ("bar.fun1()", bar.fun1() );
+		logger.log ("foo.fun1()", foo.fun1() ); 
+		logger.log ("bar.fun1()", bar.fun1() );
 	}
 };
 
@@ -259,19 +262,12 @@ ex4fn = function(){
 };
 
 ex4scope = {
-	init: function (contenerId) {
-		var ex1div = document.getElementById(contenerId);
-		this.out = ex1div.getElementsByTagName('ul').item(0);
-	},
-	log: function (info, value) {
-		var li=document.createElement('li');
-		this.out.appendChild(li);
-		li.innerHTML = info+' = '+value;
-	},
 	run: function() {
-		this.init('example-scope');
-		this.log ( "(ex4fn() == this) ", ex4fn() == window );
-		this.log( "(ex4fn.call(ex4object) == ex4object) ", ex4fn.call(ex4object) == ex4object );
+		const logger = new ListLogger( {
+			reportElemID: 'example-scope'
+		} );
+		logger.log ( "(ex4fn() == this) ", ex4fn() == window );
+		logger.log( "(ex4fn.call(ex4object) == ex4object) ", ex4fn.call(ex4object) == ex4object );
 	}
 };
 
@@ -284,32 +280,16 @@ MyClass.prototype.sum = function () {
 }
 
 ex5prototype = {
-	init: function (contenerId) {
-		var ex1div = document.getElementById(contenerId);
-		this.out = ex1div.getElementsByTagName('ul').item(0);
-	},
-	log: function (info, value) {
-		var li=document.createElement('li');
-		this.out.appendChild(li);
-		li.innerHTML = info+' = '+value;
-	},
 	run: function() {
-		this.init('example-prototype');
+		const logger = new ListLogger( {
+			reportElemID: 'example-prototype'
+		} );
 		const obj = new MyClass(5);
-		this.log( "obj.sum() ", obj.sum() );
+		logger.log( "obj.sum() ", obj.sum() );
 	}
 }
 
 ex6objectHasProperty = {
-	init: function (contenerId) {
-		var ex1div = document.getElementById(contenerId);
-		this.out = ex1div.getElementsByTagName('ul').item(0);
-	},
-	log: function (info, value) {
-		var li=document.createElement('li');
-		this.out.appendChild(li);
-		li.innerHTML = info+' = '+value;
-	},
 	__run_test: function (iterations, isSetPropertyValue, propValue) {
 		var start, obj, result, results = [];
 		// ----------------------------------
@@ -348,10 +328,13 @@ ex6objectHasProperty = {
 		return results;
 	},
 	run : function () {
-		this.init ('example-object-has-property');
+		const logger = new ListLogger( {
+			reportElemID: 'example-object-has-property'
+		} );
 		res = this.__run_test(500000, true, 1);
-		for (o of res)
-		this.log ('[ '+o.testName+' ]  (enlapsed ms)',o.time);
+		for (obj of res) {
+			logger.log ('[ '+obj.testName+' ]  (enlapsed ms)',obj.time);
+		}
 	}
 }
 
