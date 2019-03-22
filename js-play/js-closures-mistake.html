@@ -1,0 +1,107 @@
+---
+layout: javascript-playground
+title: JavaScript Closures a Common Mistake
+---
+
+<div class="example" id="example-closures">
+	<div>
+		<h1>Exercise Closures</h1>
+	</div>
+	<div class="example-content">
+		<p class="reference">
+			Mozilla: Creating closures in loops: A common mistake 
+			[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures#Creating_closures_in_loops_A_common_mistake">czytaj wiecej</a>]
+		</p>
+		<form action="">
+			<p>
+				<input type="radio" name="ex3-opt" value="using-var"> 
+				wersja - var <span style="color:red;">(błędna)</span>  <span style="margin-left:30px;"></span>
+				<input type="radio" name="ex3-opt" value="using-let"> 
+				wersja - let  <span style="margin-left:30px;"></span>
+				<input type="radio" name="ex3-opt" value="using-anonymous-closure"> 
+				wersja - anonymous closure <span style="margin-left:30px;"></span>
+				<input type="radio" name="ex3-opt" value="using-forEach"> 
+				wersja - using-forEach
+			</p>
+			<p>E-mail: <input type="text" id="email" name="email"></p>
+			<p>Name: <input type="text" id="name" name="name"></p>
+			<p>Age: <input type="text" id="age" name="age"></p>
+			<p id="help" style="color:rgb(176, 135, 0)">Helpful notes will appear here</p>
+		</form>
+	</div>
+</div>
+
+<script>
+    
+var ex_ClosuresDemoUsingOnFocusEvent = {
+	init: function () {
+		const ex3div = document.getElementById('example-closures');
+		const inputs = Array.prototype.slice.call(
+			ex3div.getElementsByTagName('input'));
+		inputs.forEach(e => {
+			const me = this;
+			if (e.type === 'radio') {
+				e.onclick = function () { 
+					me.onRadioClick(e.value);
+				};
+			};
+		});
+	},
+	onRadioClick: function (radioValue) {
+		var helpText = [
+			{'id': 'email', 'help': 'Your e-mail address'},
+			{'id': 'name', 'help': 'Your full name'},
+			{'id': 'age', 'help': 'Your age (you must be over 16)'}
+		];
+		function setupHelp1_incorrect() {
+			for (var i = 0; i < helpText.length; i++) {
+				var item = helpText[i];
+				document.getElementById(item.id).onfocus = function() {
+					document.getElementById('help').innerHTML = item.help;
+				}
+			}
+		}
+		function setupHelp2() {
+			for (var i = 0; i < helpText.length; i++) {
+				let item = helpText[i];  // ***************
+				document.getElementById(item.id).onfocus = function() {
+					document.getElementById('help').innerHTML = item.help;
+				}
+			}
+		}
+		function setupHelp3() {
+			for (var i = 0; i < helpText.length; i++) {
+				document.getElementById(helpText[i].id).onfocus = (function(item) {
+					return function () {
+						document.getElementById('help').innerHTML = item.help;
+					}
+				})(helpText[i]);
+			}
+		}
+		function setupHelp4() {
+			helpText.forEach ( item => {
+				document.getElementById(item.id).onfocus = function() {
+					document.getElementById('help').innerHTML = item.help;
+				}
+			});
+		}
+		const setupFunctions = [ 
+			{ name:"using-var", fun:setupHelp1_incorrect },
+			{ name:"using-let", fun:setupHelp2 }, 
+			{ name:"using-anonymous-closure", fun:setupHelp3 },
+			{ name:"using-forEach", fun:setupHelp4 },
+			 
+		];
+		const items = setupFunctions.filter ( e => e.name === radioValue );
+		items.forEach ( item => { 
+			item.fun(); 
+			console.log('function: '+item.fun.name); 
+		} );
+	}
+};
+
+;(function(){	
+	ex_ClosuresDemoUsingOnFocusEvent.init();
+})();
+
+</script>
