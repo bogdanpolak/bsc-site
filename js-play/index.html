@@ -65,6 +65,19 @@ title: playground one
 	</div>
 </div>
 
+<div class="example" id="example-object-has-property">
+	<div>
+		<h1>Exercise: Performance object has property</h1>
+	</div>
+	<div class="example-content">
+		<p class="reference">
+			How to check if an object has a property properly in javascript
+			[<a href="https://ourcodeworld.com/articles/read/166/how-to-check-if-an-object-has-a-property-properly-in-javascript">czytaj wiecej</a>]
+		</p>
+		<ul class="out"></ul>
+	</div>
+</div>
+
 <script>
 
 /*
@@ -285,14 +298,70 @@ ex5prototype = {
 		const obj = new MyClass(5);
 		this.log( "obj.sum() ", obj.sum() );
 	}
-};
+}
 
-(function(){
+ex6objectHasProperty = {
+	init: function (contenerId) {
+		var ex1div = document.getElementById(contenerId);
+		this.out = ex1div.getElementsByTagName('ul').item(0);
+	},
+	log: function (info, value) {
+		var li=document.createElement('li');
+		this.out.appendChild(li);
+		li.innerHTML = info+' = '+value;
+	},
+	__run_test: function (iterations, isSetPropertyValue, propValue) {
+		var start, obj, result, results = [];
+		// ----------------------------------
+		// test one:
+		var iters = iterations;
+		start = new Date;
+		do {
+			obj = {};
+			if (isSetPropertyValue) obj.prop = propValue;
+			for (var i = 0; i < 100; ++i)
+				result = (typeof obj.prop !== 'undefined');
+		} while (iters--);
+		results.push ( {testName:'typeof obj.prop !== undefined', time: new Date - start} );
+		// ----------------------------------
+		// test one:
+		var iters = iterations;
+		start = new Date;
+		do {
+			obj = {};
+			if (isSetPropertyValue) obj.prop = propValue;
+			for (var i = 0; i < 100; ++i)
+				result = ('prop' in obj);
+		} while (iters--);
+		results.push ( {testName:'prop in obj', time: new Date - start} );
+		// ----------------------------------
+		// test one:
+		var iters = iterations;
+		start = new Date;
+		do {
+			obj = {};
+			if (isSetPropertyValue) obj.prop = propValue;
+			for (var i = 0; i < 100; ++i)
+				result = (obj.hasOwnProperty('prop'));
+		} while (iters--);
+		results.push ( {testName:'obj.hasOwnProperty', time: new Date - start} );
+		return results;
+	},
+	run : function () {
+		this.init ('example-object-has-property');
+		res = this.__run_test(500000, true, 1);
+		for (o of res)
+		this.log ('[ '+o.testName+' ]  (enlapsed ms)',o.time);
+	}
+}
+
+;(function(){
 	exercise1.run();
 	exercise2.run();
 	exercise3.init();
 	ex4scope.run();
 	ex5prototype.run();
+	ex6objectHasProperty.run();
 })();
 
 </script>
