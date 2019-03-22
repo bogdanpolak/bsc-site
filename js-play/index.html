@@ -113,18 +113,18 @@ const ex01_ObjectCreate = {
 	}
 };
 
-ex4object = {};
-ex4fn = function(){ 
+objectABC = {};
+fnABC = function(){ 
 	return this; 
 };
 
-ex04_ScopeAndCall = {
+ex02_ScopeAndCall = {
 	run: function() {
 		const logger = new ListLogger( {
 			reportElemID: 'example-scope'
 		} );
-		logger.log ( "(ex4fn() == this) ", ex4fn() == window );
-		logger.log( "(ex4fn.call(ex4object) == ex4object) ", ex4fn.call(ex4object) == ex4object );
+		logger.log ( "(fnABC() == this) ", fnABC() == window );
+		logger.log( "(fnABC.call(objectABC) == objectABC) ", fnABC.call(objectABC) == objectABC );
 	}
 };
 
@@ -136,7 +136,7 @@ MyClass.prototype.sum = function () {
 	return this.a +this.b;
 }
 
-ex05_AddFunctionToPrototype = {
+ex03_AddFunctionToPrototype = {
 	run: function() {
 		const logger = new ListLogger( {
 			reportElemID: 'example-prototype'
@@ -146,7 +146,7 @@ ex05_AddFunctionToPrototype = {
 	}
 }
 
-ex06_TestObjectPropertyPerformance = {
+ex04_TestObjectPropertyPerformance = {
 	__run_test: function (iterations, isSetPropertyValue, propValue) {
 		var start, obj, result, results = [];
 		// ----------------------------------
@@ -197,9 +197,9 @@ ex06_TestObjectPropertyPerformance = {
 
 ;(function(){
 	ex01_ObjectCreate.run();
-	ex04_ScopeAndCall.run();
-	ex05_AddFunctionToPrototype.run();
-	ex06_TestObjectPropertyPerformance.run();
+	ex02_ScopeAndCall.run();
+	ex03_AddFunctionToPrototype.run();
+	ex04_TestObjectPropertyPerformance.run();
 })();
 
 </script>
