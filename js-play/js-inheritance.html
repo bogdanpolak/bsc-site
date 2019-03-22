@@ -1,0 +1,107 @@
+---
+layout: javascript-playground
+title: JavaScript Inheritance
+---
+
+<div class="example" id="example-inheritance-before-ES6">
+	<div>
+		<h1>Exercise: Inheritance before ES6</h1>
+	</div>
+	<div class="example-content">
+		<p class="reference">
+			Mozilla: JavaScript Guide - Details of the object model
+			[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Details_of_the_Object_Model">czytaj wiecej</a>]
+		</p>
+		<ul class="out"></ul>
+	</div>
+</div>
+
+<script>
+/* -----------------------------------------------------------------------
+ * HTML Loggers: ListLogger
+ * ----------------------------------------------------------------------- */
+
+ const ListLogger = function (param) {
+	if (typeof param.reportElemID === 'undefined')
+		console.error ('property reportElemID is reqired in param object');
+	const div = document.getElementById(param.reportElemID);
+	this.out = div.getElementsByTagName('ul').item(0);
+};
+ListLogger.prototype.log = function (info, value) {
+	var li=document.createElement('li');
+	this.out.appendChild(li);
+	li.innerHTML = info+' = '+value;
+};
+
+/* -----------------------------------------------------------------------
+ * Exercises
+ * ----------------------------------------------------------------------- */
+
+ const ex01_InheritanceBeforeES6 = {
+	run: function () {
+		const logger = new ListLogger( {
+			reportElemID: 'example-inheritance-before-ES6'
+		} );
+		// ------------------------------------------
+		// declare
+		// ------------------------------------------
+		// --- Employee class
+		Employee = function  (name) {
+			this.name = name || '';
+			this.dept = 'general';
+		};
+		// --- Manager class (with explanations)
+		Manager = function (name) {
+			Employee.call(this,name);  // call Employee constructor
+			this.reports = [];
+		}
+		Manager.prototype = Object.create(Employee.prototype);   // set prototype chain (this changes constructor to Person function)
+		Manager.prototype.constructor = Manager;   // sets constructor again to Manager
+		// --- Staff class
+		Staff = function (name) {
+			Employee.call(this,name);
+			this.projects = [];
+		}
+		Staff.prototype = Object.create(Employee.prototype);
+		Staff.prototype.constructor = Staff;
+		// --- SalesStaff class
+		function SalesStaff(name) {
+			Staff.call(this,name);
+			this.dept = 'sales';
+			this.quota = 100;
+		}
+		SalesStaff.prototype = Object.create(Staff.prototype);
+		SalesStaff.prototype.constructor = SalesStaff;
+		// --- Engineer class
+		function Engineer (name) {
+			Staff.call(this,name);
+			this.dept = 'engineering';
+			this.machine = '';
+		}
+		Engineer.prototype = Object.create(Staff.prototype);
+		Engineer.prototype.constructor = Engineer;
+		// ------------------------------------------
+		// construct objects
+		// ------------------------------------------
+		var jim = new Employee('Jim Bean');
+		var sally = new Manager('Sally Reynolds');
+		var mark = new Staff('Mark Doe');
+			mark.dept = 'admin';
+			mark.projects = [ 'NAV-navigator' ];
+			mark.bonus = 3000;
+		var fred = new SalesStaff;
+		var jane = new Engineer;
+		// ------------------------------------------
+		logger.log('jim: Employee',JSON.stringify(jim));
+		logger.log('sally: Manager',JSON.stringify(jim));
+		logger.log('mark: Staff',JSON.stringify(mark));
+		logger.log('fred: SalesStaff',JSON.stringify(fred));
+		logger.log('jane: Engineer',JSON.stringify(jane));
+	}
+};
+
+;(function(){
+	ex01_InheritanceBeforeES6.run();
+})();
+
+</script>
