@@ -13,20 +13,33 @@ title: playground one
 	</div>
 </div>
 
+<div class="example" id="example-inheritance-before-ES6">
+	<div>
+		<h1>Exercise: Inheritance before ES6</h1>
+	</div>
+	<div class="example-content">
+		<p class="reference">
+			Mozilla: JavaScript Guide - Details of the object model
+			[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Details_of_the_Object_Model">czytaj wiecej</a>]
+		</p>
+		<ul class="out"></ul>
+	</div>
+</div>
+
+
 <div class="example" id="example-closures">
 	<div>
 		<h1>Exercise Closures</h1>
 	</div>
 	<div class="example-content">
 		<p class="reference">
-			Przykład wyświetlania podpowiedzi po wejściu w pole formularza. 
+			Mozilla: Creating closures in loops: A common mistake 
 			[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures#Creating_closures_in_loops_A_common_mistake">czytaj wiecej</a>]
-			(https://developer.mozilla.org)
 		</p>
 		<form action="">
 			<p>
 				<input type="radio" name="ex3-opt" value="using-var"> 
-				wersja - var  <span style="margin-left:30px;"></span>
+				wersja - var <span style="color:red;">(błędna)</span>  <span style="margin-left:30px;"></span>
 				<input type="radio" name="ex3-opt" value="using-let"> 
 				wersja - let  <span style="margin-left:30px;"></span>
 				<input type="radio" name="ex3-opt" value="using-anonymous-closure"> 
@@ -100,6 +113,10 @@ String.prototype.formatUnicorn = String.prototype.formatUnicorn || function () {
 	return str;
 };
 
+/* -----------------------------------------------------------------------
+ * HTML Loggers: ListLogger
+ * ----------------------------------------------------------------------- */
+
 const ListLogger = function (param) {
 	if (typeof param.reportElemID === 'undefined')
 		console.error ('property reportElemID is reqired in param object');
@@ -112,7 +129,11 @@ ListLogger.prototype.log = function (info, value) {
 	li.innerHTML = info+' = '+value;
 };
 
-const exercise1 = {
+/* -----------------------------------------------------------------------
+ * Exercises
+ * ----------------------------------------------------------------------- */
+
+const ex01_ObjectCreate = {
 	run: function () {
 		const logger = new ListLogger( {
 			reportElemID: 'example-object-create'
@@ -130,24 +151,34 @@ const exercise1 = {
 	}
 };
 
-const exercise2 = {
-	declare: function () {
-		function Employee (name) {
+const ex02_InheritanceBeforeES6 = {
+	run: function () {
+		const logger = new ListLogger( {
+			reportElemID: 'example-inheritance-before-ES6'
+		} );
+		// ------------------------------------------
+		// declare
+		// ------------------------------------------
+		// --- Employee class
+		Employee = function  (name) {
 			this.name = name || '';
 			this.dept = 'general';
 		};
-		function Manager(name) {
-			Employee.call(this,name);
+		// --- Manager class (with explanations)
+		Manager = function (name) {
+			Employee.call(this,name);  // call Employee constructor
 			this.reports = [];
 		}
-		Manager.prototype = Object.create(Employee.prototype);
-		Manager.prototype.constructor = Manager;
-		function Staff(name) {
+		Manager.prototype = Object.create(Employee.prototype);   // set prototype chain (this changes constructor to Person function)
+		Manager.prototype.constructor = Manager;   // sets constructor again to Manager
+		// --- Staff class
+		Staff = function (name) {
 			Employee.call(this,name);
 			this.projects = [];
 		}
 		Staff.prototype = Object.create(Employee.prototype);
 		Staff.prototype.constructor = Staff;
+		// --- SalesStaff class
 		function SalesStaff(name) {
 			Staff.call(this,name);
 			this.dept = 'sales';
@@ -155,6 +186,7 @@ const exercise2 = {
 		}
 		SalesStaff.prototype = Object.create(Staff.prototype);
 		SalesStaff.prototype.constructor = SalesStaff;
+		// --- Engineer class
 		function Engineer (name) {
 			Staff.call(this,name);
 			this.dept = 'engineering';
@@ -162,11 +194,9 @@ const exercise2 = {
 		}
 		Engineer.prototype = Object.create(Staff.prototype);
 		Engineer.prototype.constructor = Engineer;
-		return {Employee, Manager, Staff, SalesStaff, Engineer};
-	},
-	run: function () {
-		var {Employee, Manager, Staff, SalesStaff, Engineer} = this.declare();
-		// --------------------------
+		// ------------------------------------------
+		// construct objects
+		// ------------------------------------------
 		var jim = new Employee('Jim Bean');
 		var sally = new Manager('Sally Reynolds');
 		var mark = new Staff('Mark Doe');
@@ -175,19 +205,16 @@ const exercise2 = {
 			mark.bonus = 3000;
 		var fred = new SalesStaff;
 		var jane = new Engineer;
-		// --------------------------
-		console.info(jim);
-		console.info(sally);
-		console.info(mark);
-		console.info(fred);
-		console.info(jane);
+		// ------------------------------------------
+		logger.log('jim: Employee',JSON.stringify(jim));
+		logger.log('sally: Manager',JSON.stringify(jim));
+		logger.log('mark: Staff',JSON.stringify(mark));
+		logger.log('fred: SalesStaff',JSON.stringify(fred));
+		logger.log('jane: Engineer',JSON.stringify(jane));
 	}
 };
 
-var exercise3 = {
-	option: 0,
-	setOption: function(ver) {
-	},
+var ex03_ClosuresDemoUsingOnFocusEvent = {
 	init: function () {
 		const ex3div = document.getElementById('example-closures');
 		const inputs = Array.prototype.slice.call(
@@ -196,18 +223,18 @@ var exercise3 = {
 			const me = this;
 			if (e.type === 'radio') {
 				e.onclick = function () { 
-					me.run(e.value);
+					me.onRadioClick(e.value);
 				};
 			};
 		});
 	},
-	run: function (inputValue) {
+	onRadioClick: function (radioValue) {
 		var helpText = [
 			{'id': 'email', 'help': 'Your e-mail address'},
 			{'id': 'name', 'help': 'Your full name'},
 			{'id': 'age', 'help': 'Your age (you must be over 16)'}
 		];
-		function setupHelp1() {
+		function setupHelp1_incorrect() {
 			for (var i = 0; i < helpText.length; i++) {
 				var item = helpText[i];
 				document.getElementById(item.id).onfocus = function() {
@@ -240,15 +267,13 @@ var exercise3 = {
 			});
 		}
 		const setupFunctions = [ 
-			{ name:"using-var", fun:setupHelp1 },
+			{ name:"using-var", fun:setupHelp1_incorrect },
 			{ name:"using-let", fun:setupHelp2 }, 
 			{ name:"using-anonymous-closure", fun:setupHelp3 },
 			{ name:"using-forEach", fun:setupHelp4 },
 			 
 		];
-		const items = setupFunctions.filter ( e => e.name === inputValue );
-		if (items.length === 0)
-			console.error ('invalid input value: '+inputValue+'. No function defined');
+		const items = setupFunctions.filter ( e => e.name === radioValue );
 		items.forEach ( item => { 
 			item.fun(); 
 			console.log('function: '+item.fun.name); 
@@ -261,7 +286,7 @@ ex4fn = function(){
 	return this; 
 };
 
-ex4scope = {
+ex04_ScopeAndCall = {
 	run: function() {
 		const logger = new ListLogger( {
 			reportElemID: 'example-scope'
@@ -279,7 +304,7 @@ MyClass.prototype.sum = function () {
 	return this.a +this.b;
 }
 
-ex5prototype = {
+ex05_AddFunctionToPrototype = {
 	run: function() {
 		const logger = new ListLogger( {
 			reportElemID: 'example-prototype'
@@ -289,7 +314,7 @@ ex5prototype = {
 	}
 }
 
-ex6objectHasProperty = {
+ex06_TestObjectPropertyPerformance = {
 	__run_test: function (iterations, isSetPropertyValue, propValue) {
 		var start, obj, result, results = [];
 		// ----------------------------------
@@ -339,12 +364,12 @@ ex6objectHasProperty = {
 }
 
 ;(function(){
-	exercise1.run();
-	exercise2.run();
-	exercise3.init();
-	ex4scope.run();
-	ex5prototype.run();
-	ex6objectHasProperty.run();
+	ex01_ObjectCreate.run();
+	ex02_InheritanceBeforeES6.run();
+	ex03_ClosuresDemoUsingOnFocusEvent.init();
+	ex04_ScopeAndCall.run();
+	ex05_AddFunctionToPrototype.run();
+	ex06_TestObjectPropertyPerformance.run();
 })();
 
 </script>
